@@ -1,0 +1,29 @@
+# HELP foo_bar The amount of foo going well with bar
+# TYPE foo_bar gauge
+foo_bar{application="my-own-app",area="nonheap",id="CodeHeap 'non-profiled nmethods'",} 3732552.0
+foo_bar{application="my-own-app",area="heap",id="G1 Eden Space",} 7.9641776E7
+foo_bar{application="my-own-app",area="nonheap",id="Metaspace",} 3.72735E7
+foo_bar{application="my-own-app",area="heap",id="G1 Survivor Space",} 2097152.0
+foo_bar{application="my-own-app",area="nonheap",id="CodeHeap 'non-nmethods'",} 2544904.0
+foo_bar{application="my-own-app",area="nonheap",id="CodeHeap 'profiled nmethods'",} 1.0555296E7
+foo_bar{application="my-own-app",area="nonheap",id="Compressed Class Space",} 4325676.0
+foo_bar{application="my-own-app",area="heap",id="G1 Old Gen",} 5.0331678E7
+# HELP hz_queue_ownedItemCount can be used to track the number of admission requests encountered by Kyverno in the cluster.
+# TYPE hz_queue_ownedItemCount gauge
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.141:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 32
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.142:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 45
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.143:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"}  8
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.144:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 142
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.145:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 32
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.146:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 45
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.147:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"}  8
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.148:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 142
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.149:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 32
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.150:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 45
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.151:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"}  8
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.152:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 142
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.153:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 32
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.154:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 45
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.155:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"}  8
+hz_queue_ownedItemCount{mc_cluster="uat",mc_member="100.64.20.156:5701",name="MIDAS_GENERATOR_REQUEST_QUEUE_0"} 142
+

@@ -1,0 +1,86 @@
+receivers:
+  smartagent/prometheus-exporter/hazelcast:
+    datapointsToExclude:
+    - metricNames:
+      - hz*
+      - '!hz_queue_ownedItemCount'
+    host: thttpd
+    port: 80
+    type: prometheus-exporter
+
+processors:
+  batch:
+  resource:
+    attributes:
+      - action: insert
+        key: com.splunk.hec.access_token
+        value: 00000000-0000-0000-0000-0000000000000
+      - action: insert
+        key: k8s.namespace.name
+        value: test-prod
+      - action: insert
+        key: k8s.node.name
+        value: atest-node.com
+      - action: insert
+        key: metrics.platform
+        value: both
+
+  routing/metrics/ctc:
+    attribute_source: resource
+    default_exporters:
+    - splunk_hec/enterprise_metrics/ctc
+    drop_resource_routing_attribute: true
+    from_attribute: metrics.platform
+    table:
+    - exporters:
+      - signalfx
+      expression: delete_matching_keys(resource.attributes, "com\\.splunk\\.index|metrics\\.platform|com\\.splunk\\.hec\\.access_token")
+        where IsMatch(resource.attributes["metrics.platform"], "observability") ==
+        true
+    - exporters:
+      - splunk_hec/enterprise_metrics/ctc
+      value: enterprise
+    - exporters:
+      - splunk_hec/enterprise_metrics/ctc
+      - signalfx
+      value: both
+
+exporters:
+  signalfx:
+    access_token: "<token>"
+    api_url: "https://api.<realm>.signalfx.com"
+    ingest_url: "https://ingest.<realm>.signalfx.com"
+    loglevel: info
+    sync_host_metadata: true
+    log_data_points: true
+  splunk_hec/enterprise_metrics/ctc:
+    token: "00000000-0000-0000-0000-0000000000000"
+    disable_compression: true
+    endpoint: "https://splunk:8088/services/collector"
+    source: "app"
+    sourcetype: "test_metrics"
+    index: "metrics"
+    max_connections: 20
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_elapsed_time: 300s
+      max_interval: 30s
+    sending_queue:
+      enabled: true
+      num_consumers: 10
+      queue_size: 5000
+    tls:
+      insecure_skip_verify: true
+    timeout: 10s
+
+service:
+  pipelines:
+    metrics:
+      receivers: [smartagent/prometheus-exporter/hazelcast]
+      processors: [batch, resource, routing/metrics/ctc]
+      exporters: [splunk_hec/enterprise_metrics/ctc, signalfx]
+
+  telemetry:
+    logs:
+      level: info
