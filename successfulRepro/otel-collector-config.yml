@@ -1,0 +1,62 @@
+receivers:
+  smartagent/prometheus-exporter-1:
+    host: thttpd
+    port: 80
+    type: prometheus-exporter
+  smartagent/prometheus-exporter-2:
+    host: thttpd
+    port: 80
+    type: prometheus-exporter
+
+processors:
+  batch:
+  resource:
+    attributes:
+      - action: insert
+        key: com.splunk.hec.access_token
+        value: 00000000-0000-0000-0000-0000000000000
+      - action: insert
+        key: metrics.platform
+        value: both
+
+  routing:
+    attribute_source: resource
+    default_exporters:
+    - splunk_hec
+    drop_resource_routing_attribute: true
+    from_attribute: metrics.platform
+    table:
+    - exporters:
+      - splunk_hec
+      - signalfx
+      value: both
+
+exporters:
+  signalfx:
+    access_token: "<token>"
+    api_url: "https://api.<realm>.signalfx.com"
+    ingest_url: "https://ingest.<realm>.signalfx.com"
+    loglevel: info
+    sync_host_metadata: false
+  splunk_hec:
+    token: "00000000-0000-0000-0000-0000000000000"
+    disable_compression: true
+    endpoint: "https://splunk:8088/services/collector"
+    source: "app"
+    sourcetype: "test_metrics"
+    index: "metrics"
+    max_connections: 20
+    tls:
+      insecure_skip_verify: true
+    timeout: 10s
+
+service:
+  pipelines:
+    metrics:
+      receivers: [smartagent/prometheus-exporter-1, smartagent/prometheus-exporter-2]
+      processors: [batch, resource, routing]
+      exporters: [splunk_hec, signalfx]
+
+  telemetry:
+    logs:
+      level: info

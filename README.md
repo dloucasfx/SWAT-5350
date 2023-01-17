@@ -27,8 +27,12 @@ Below is the routing processor config, when metrics with `metrics.platform` attr
 ```
 
 ## Repro:
-I can clearly see the issue in the logs provided, but I was not able to reproduce the problem on OTEL Splunk distro v0.62.0 <br />
-The [unsuccessfulRepro](unsuccessfulRepro/) is a docker compose that starts 3 services, `Splunk enterprise`, `http server` that provides prometheus metrics and `otel v0.62.0` <br /> <br />
+~~I can clearly see the issue in the logs provided, but I was not able to reproduce the problem on OTEL Splunk distro v0.62.0~~ <br />
+~~The [unsuccessfulRepro](unsuccessfulRepro/) is a docker compose that starts 3 services,~~ `Splunk enterprise`, `http server` ~~that provides prometheus metrics and~~ `otel v0.62.0` <br /> <br />
+
+### Update Successful Repro:
+After deploying a custom agent with extra logs [commit](https://github.com/dloucasfx/opentelemetry-collector-contrib/commit/3e7365cb46525bae34bd6a6a3c5e1a7c49753e38), I was able to identify the issue to be in the [batch processor] (https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/batchperresourceattr/batchperresourceattr.go#L98) which is changing the content of the referenced argument. <br /> <br />
+Based on this, I was able to tune the [repro config](successfulRepro/) to successfully reproduce the issue.
 
 ### Run Repro:
 - Edit `otel-collector-config.yml` and replace `<realm>` and `<token>` with the actual values in the signalfx exporter
