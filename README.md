@@ -28,7 +28,7 @@ Below is the routing processor config, when metrics with `metrics.platform` attr
 
 ## Repro:
 I can clearly see the issue in the logs provided, but I was not able to reproduce the problem on OTEL Splunk distro v0.62.0 <br />
-The [repro](repro/) is a docker compose that starts 3 services, `Splunk enterprise`, `http server` that provides prometheus metrics and `otel v0.62.0` <br /> <br />
+The [unsuccessfulRepro](unsuccessfulRepro/) is a docker compose that starts 3 services, `Splunk enterprise`, `http server` that provides prometheus metrics and `otel v0.62.0` <br /> <br />
 
 ### Run Repro:
 - Edit `otel-collector-config.yml` and replace `<realm>` and `<token>` with the actual values in the signalfx exporter
